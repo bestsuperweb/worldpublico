@@ -1,0 +1,7 @@
+<tr>
+  <td>  <%= link_to image_tag( user.avatar_url(:thumb), class: 'img-circle'), user_path(user.id) if user.avatar? %></td>
+  <td><%= link_to user.name, user_path(user.id) %></td>
+  <td><%= user.address %></td>
+  <td><%= user.website %></td>
+  <td><h5>Posted <%= time_ago_in_words user.created_at %> ago</h5></td>
+</tr>

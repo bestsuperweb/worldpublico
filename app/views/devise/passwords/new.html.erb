@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="col-md-12">
+    <div class="modal-header">
+      <h2 class="modal-title">Forgot your password?</h2>
+    </div>
+    <div class="modal-body">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+           <div class="form-group">
+            <label for="inputPassword" class="control-label col-md-2">Email</label>
+            <div class="col-md-10">
+              <%= f.password_field :email, autofocus:true, placeholder:"Email", class:"form-control" %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+              <%= f.submit "Send me reset password instructions", class:"btn btn-primary" %>
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class="modal-footer social">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('form.new_user').addClass('form-horizontal');
+</script>
+<style>
+    body{
+        background: none;
+    }
+</style>

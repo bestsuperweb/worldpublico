@@ -1,0 +1,5 @@
+<%= form_for(@reply) do |f| %>
+    <%= f.hidden_field :micropost_id, value: micropost.id %>
+    <%= f.text_area :content, placeholder: "Compose new reply...", class:'form-control' %>
+    <%= f.submit "Reply", class: "btn btn-primary" %>
+<% end %>

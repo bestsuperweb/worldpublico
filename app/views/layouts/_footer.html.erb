@@ -1,0 +1,11 @@
+<div class="footer">
+  <%
+     current_time = DateTime.now
+  %>
+  <span>&copy; <%= current_time.strftime "%Y" %> WorldPublico</span>
+  <%= link_to 'About Us', index_about_path %>&nbsp;&nbsp;&nbsp;
+  <%= link_to 'Contact', index_contact_path %>
+</div>
+</div>
+</body>
+</html>

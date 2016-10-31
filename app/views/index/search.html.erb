@@ -1,0 +1,31 @@
+
+<div class="form-inline search-form">
+  <%= form_for(:search_form, url:index_search_path, :method => 'get') do |f| %>
+      <%= select_tag :org, options_for_select([ "Individual", "Organization" ], "Individual"), class: "form-control" %>
+      <!-- <%= text_field_tag :search, '', placeholder: "Type Keyword...", class:"form-control" %>-->
+      <%= f.submit 'Search', class: "btn btn-primary" %>
+  <% end %>
+</div>
+<div class="search-result">
+
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>User</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Website</th>
+            <th>Created at</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% unless @users.nil? %>
+          <%= render @users %>
+          <% else %>
+           <tr><td>No result...</td></tr>
+          <% end %>
+          </tbody>
+        </table>
+        <%= will_paginate @users, :previous_label => '<<', :next_label => '>>' if @users %>
+
+</div>

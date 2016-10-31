@@ -1,0 +1,54 @@
+<div id="add-email">
+  <div class="col-md-12">
+    <div class="modal-header">
+      <h1>Add Email</h1>
+      </div>
+        <div class="modal-body">
+          <%= form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| %>
+              <% if @show_errors && current_user.errors.any? %>
+                  <div id="error_explanation">
+                    <% current_user.errors.full_messages.each do |msg| %>
+                        <%= msg %><br>
+                    <% end %>
+                  </div>
+              <% end %>
+              <div class="form-group">
+                <label class="control-label col-md-2">Email</label>
+                <div class="controls col-md-10">
+                  <%= f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@me.com' %>
+                  <p class="help-block">Please confirm your email address. No spam.</p>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                  <div class="checkbox">
+                    <%= f.check_box :category %>
+                    <%= f.label :Organization %>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                  <div class="checkbox">
+                    <input type="checkbox">
+                    <%= f.label :Individual %>
+                  </div>
+                </div>
+              </div>
+              <div class="actions">
+                <%= f.submit 'Continue', :class => 'btn btn-primary' %>
+              </div>
+          <% end %>
+          </div>
+    </div>
+
+</div>
+
+<script>
+    $('form.new_user').addClass('form-horizontal');
+</script>
+<style>
+    body{
+        background:none;
+    }
+</style>

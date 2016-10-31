@@ -1,0 +1,7 @@
+<%= render 'users/person' if @user.category == '0' %>
+<%= render 'users/org' if @user.category != '0' %>
+<style>
+    body{
+        background:none;
+    }
+</style>

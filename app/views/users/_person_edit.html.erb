@@ -1,0 +1,104 @@
+  <%= form_for @user do |f| %>
+  <div class="row">
+    <div class="col-md-3">
+      <h2><%= f.text_field :name, class:'form-control', value: @user.name %></h2>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-3">
+      <div class="col-md-9">
+
+      </div>
+      <div class="col-md-3">
+        <%= f.submit 'Update Profile', class:'btn btn-primary' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3" >
+      <div class="user-image" style="background: url('<%= @user.avatar %>'); background-size: 100%;">
+        <%= f.file_field :avatar, id:'avatar-file', onchange: 'setimage()' %>
+        <%= image_tag src="cam.png", class: "cam" %>
+      </div>
+<script>
+    $('.cam').bind("click" , function () {
+        $('#avatar-file').click();
+    });
+
+    function setimage(){
+        $('form').eq(0).submit();
+    }
+</script>
+      <br><br>
+      <%= @user.following.count %> following |
+      <%= @user.followers.count %> followers
+
+      <div class="detail">
+        <table class="table table-striped">
+          <tr>
+            <td><span class="glyphicon glyphicon-map-marker"></span></td>
+            <td><%= f.text_field :address, class:'form-control',value: @user.address %></td>
+          </tr>
+          <tr>
+            <td><span class="glyphicon glyphicon-earphone"></span></td>
+            <td><%= f.text_field :tel, class:'form-control',value: @user.tel %></td>
+          </tr>
+          <tr>
+            <td><span class="glyphicon glyphicon-envelope"></span></td>
+            <td><%= f.email_field :email, class:'form-control',value: @user.email %></td>
+          </tr>
+          <tr><td></td><td></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3>My Story</h3>
+      <%= f.text_area :about, value: "#{@user.about}" %>
+    </div>
+    <div class="col-md-3">
+      <h3>Website</h3>
+      <%= f.text_field :website, class:'form-control',value: @user.website %>
+  <% end %>
+      <h3>Social Media <a href="#" id="add_social" data-toggle="modal" data-target="#Modal">&plus; add link</a></h3>
+      <div class="social">
+        <% @user.identities.each do|provider| %>
+            <%= link_to image_tag( "social icons/#{provider.provider}.png" ), provider.url %>
+            <%= link_to 'Delete', identity_path(provider.id), :method => :delete, 'data-confirm':'Are you sure?' %>
+            <input type="hidden" value="<%= provider.id %>" class="identity_id"> &nbsp;|&nbsp;
+            <input type="hidden" value="<%= provider.url %>" class="identity_url">
+            <a href="#" data-toggle="modal" data-target="#Modal1" class="edit_social">Edit</a>
+            <br>
+        <% end %>
+      </div>
+  <script>
+      $('.edit_social').bind("click" , function (){
+          index = $('.edit_socia').index($(this));
+          id = $('.identity_id').eq(index).val();
+          url = $('.identity_url').eq(index).val();
+          $('#edit_social_form').attr('action', '/identities/' + id );
+          $('#_url').val(url);
+      });
+  </script>
+    </div>
+  </div>
+
+  <div class="post">
+    <h3>Posts(<%= @user.microposts.count %>)</h3>
+    <% if @user.microposts.any? %>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>User</th>
+            <th>Post Content</th>
+            <th>Time</th>
+          </tr>
+          </thead>
+          <tbody>
+          <%= render @microposts %>
+          </tbody>
+        </table>
+        <%= will_paginate @microposts, :previous_label => '<<', :next_label => '>>' %>
+    <% end %>
+  </div>
+
+<%= render 'users/modal' %>
+<%= render 'users/modal1' %>

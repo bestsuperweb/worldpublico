@@ -1,0 +1,24 @@
+<tr>
+<td><%= image_tag(micropost.user.avatar_url(:thumb), class: 'img-circle') if micropost.user.avatar_url %></td>
+<td><%= micropost.content %>
+  <% if micropost.replies.any? %>
+      <% @replies = micropost.replies  %>
+      <table class="table">
+      <%= render @replies %>
+      </table>
+  <% end %>
+  <% if user_signed_in? %>
+  <%= form_for(@reply) do |f| %>
+      <%= f.hidden_field :micropost_id, value: micropost.id %>
+      <%= f.text_area :content, placeholder: "Compose new reply...", class:'form-control' %>
+      <br>
+      <%= f.submit "Reply", class: "btn btn-primary" %>
+  <% end %>
+  <% end %>
+</td>
+<td><h5>Posted <%= time_ago_in_words micropost.created_at %> ago</h5>
+  <% if current_user %>
+    <%= link_to 'Delete',micropost_path(micropost.id), method: :delete %>
+  <% end %>
+</td>
+</tr>

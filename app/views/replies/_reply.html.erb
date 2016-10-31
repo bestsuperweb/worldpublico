@@ -1,0 +1,10 @@
+<tr>
+  <td>
+    <%= image_tag reply.user.avatar_url(:thumb), class: 'img-circle' %>
+  </td>
+  <td>
+    <%= reply.content %>
+    <h6>Replied <%= time_ago_in_words reply.created_at %> ago</h6>
+  </td>
+
+</tr>

@@ -1,0 +1,116 @@
+<div class="row">
+    <div class="col-md-9">
+      <h2><%= @user.name %></h2>
+    </div>
+    <div class="col-md-3">
+      <% if @user == current_user %>
+      <div class="col-md-9">
+        <a class="trigger" href="#popover1">
+          <h5><%= image_tag "social icons/share.png", class:"share-img"%> Share Profile</h5>
+        </a>
+        <div id="popover1">
+          <div class="input-group">
+            <input type="text" class="form-control" value="<%= user_url(current_user) %>" id="bar">
+            <span class="input-group-btn">
+               <button class="btn btn-primary" type="button" data-clipboard-action="copy" data-clipboard-target="#bar" id="copy">Copy</button>
+            </span>
+          </div><!-- /input-group -->
+          To share your profile, please update your settings to allow anyone to see your profile.
+        </div>
+        <script>
+            $('.trigger').popover({
+                my: 'left bottom',
+                at: 'left top',
+                collision: 'flip flip'
+            });
+
+            var clip = new Clipboard('.btn');
+            console.log(clip);
+
+            $('#copy').click(function(){
+                $(this).html('Copied');
+            });
+        </script>
+      </div>
+      <div class="col-md-3">
+        <%= link_to "Edit Profile", edit_user_path(@user), class: "btn btn-primary" %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3" >
+      <div class="user-image" style="background: url('<%= @user.avatar_url(:large) %>')">
+      </div><br>
+      <h4><%= @user.following.count %> following |
+      <%= @user.followers.count %> followers</h4>
+      <% if user_signed_in? %>
+          <% if @user != current_user %>
+              <% if current_user.following?(@user) %>
+                  <%= form_for(current_user.active_relationships.find_by(followed_id: @user.id),
+                               html: { method: :delete }) do |f| %>
+                      <%= f.submit "Unfollow", class: "btn btn-primary" %>
+                  <% end %>
+              <% else %>
+                  <%= form_for(current_user.active_relationships.build) do |f| %>
+                      <div><%= hidden_field_tag :followed_id, @user.id %></div>
+                      <%= f.submit "Follow", class: "btn btn-primary" %>
+                  <% end %>
+              <% end %>
+          <% end %>
+      <% end %>
+
+      <div class="detail" >
+        <table class="table table-striped">
+          <tr>
+            <td><span class="glyphicon glyphicon-map-marker"></span></td>
+            <td><%= @user.address %></td>
+          </tr>
+          <tr>
+            <td><span class="glyphicon glyphicon-earphone"></span></td>
+            <td><%= @user.tel %></td>
+          </tr>
+          <tr>
+            <td><span class="glyphicon glyphicon-envelope"></span></td>
+            <td><%= @user.email %></td>
+          </tr>
+          <tr><td></td><td></td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h3> <%= @user.name %>'s Story</h3>
+      <p class="personal-detail">
+        <%= @user.about %>
+      </p>
+    </div>
+    <div class="col-md-3">
+      <h3>Website</h3>
+      <%= link_to @user.website, "http://#{@user.website}" %> <br>
+      <h3>Social Media</h3>
+      <div class="social">
+        <% @user.identities.each do|provider| %>
+            <%= link_to image_tag( "social icons/#{provider.provider}.png" ), provider.url %><br>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="post">
+    <h3>Posts(<%= @user.microposts.count %>)</h3>
+    <% if @user.microposts.any? %>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>User</th>
+        <th>Post Content</th>
+        <th>Time</th>
+      </tr>
+      </thead>
+      <tbody>
+            <%= render @microposts %>
+      </tbody>
+    </table>
+        <%= will_paginate @microposts, :previous_label => '<<', :next_label => '>>' %>
+    <% end %>
+    <%= render 'microposts/micropost_form' if user_signed_in? %>
+  </div>

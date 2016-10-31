@@ -1,0 +1,22 @@
+<div class="modal fade" id="Modal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Social Link</h4>
+      </div>
+      <div class="modal-body form-inline">
+        <%= form_for(@identity) do |f| %>
+            <%=f.select :provider, options_for_select([ "facebook", "linkedin", "twitter", "google" ], "facebook"), {}, class:"form-control" %>
+            <%=f.url_field :url, placeholder: "Type url...", class:"form-control" %>
+            <%=f.submit 'Add', class: "btn btn-primary" %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+
+      </div>
+    </div>
+
+  </div>
+</div>

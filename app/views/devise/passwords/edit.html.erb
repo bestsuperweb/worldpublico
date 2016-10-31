@@ -1,0 +1,47 @@
+
+<div class="container">
+  <div class="col-md-12">
+    <div class="modal-header">
+      <h2 class="modal-title">Cange your password</h2>
+    </div>
+    <div class="modal-body">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+          <%= devise_error_messages! %>
+          <%= f.hidden_field :reset_password_token %>
+          <div class="form-group">
+            <label for="inputPassword" class="control-label col-md-2">New password</label>
+            <div class="col-md-10">
+              <%= f.password_field :password, autocomplete: "off", class:"form-control", id:"inputPassword", placeholder:"Password" %>
+              <% if @minimum_password_length %>
+                  <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputPassword" class="control-label col-md-2">Confirmation</label>
+            <div class="col-md-10">
+              <%= f.password_field :password_confirmation, autocomplete: "off", class:"form-control", id:"inputPassword", placeholder:"Password" %>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+              <%= f.submit "Change my password", class:"btn btn-primary" %>
+            </div>
+          </div>
+      <% end %>
+    </div>
+    <div class="modal-footer social">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
+
+<script>
+    $('form.new_user').addClass('form-horizontal');
+</script>
+<style>
+    body{
+        background: none;
+    }
+</style>
