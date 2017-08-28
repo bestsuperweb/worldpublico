@@ -1,3 +1,4 @@
+// Identities Controller
 class IdentitiesController < ApplicationController
   # before_action :logged_in_user, only: [:create, :destroy]
   skip_before_filter :verify_authenticity_token, :only => [:update]
